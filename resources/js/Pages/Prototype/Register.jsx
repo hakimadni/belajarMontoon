@@ -57,6 +57,13 @@ export default function Register(){
                                 </span>
                             </Button>
                         </Link>
+                        <Link href={route("prototype.dashboard")}>
+                                <Button type="button" variant="primary">
+                                    <span className="text-base font-semibold">
+                                        Start Watching
+                                    </span>
+                                </Button>
+                            </Link>
                     </div>
                 </form>
             </div>
