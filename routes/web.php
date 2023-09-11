@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\User\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,10 @@ Route::get('/', function () {
 
 Route::redirect('/', '/login');
 
+Route::middleware(['auth', 'role:user'])->prefix('dashboard')->name('user.dashboard.')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('index');
+});
+
 Route::prefix('prototype')->name('prototype.')->group(function(){
     route::get('/login', function (){
         return Inertia::render('Prototype/Login');
@@ -35,7 +40,7 @@ Route::prefix('prototype')->name('prototype.')->group(function(){
         return Inertia::render('Prototype/Register');
     })->name('register');
     route::get('/dashboard', function (){
-        return Inertia::render('Prototype/Dashboard');
+        return Inertia::render('User/Dashboard/Index');
     })->name('dashboard');
     route::get('/subsPlan', function (){
         return Inertia::render('Prototype/SubsPlan');
@@ -44,10 +49,6 @@ Route::prefix('prototype')->name('prototype.')->group(function(){
         return Inertia::render('Prototype/Movie/Show');
     })->name('movie.show');
 });
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
