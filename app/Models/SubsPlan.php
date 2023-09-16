@@ -14,5 +14,6 @@ class SubsPlan extends Model
         'price',
         'durationMonths',
         'features',
+        'updated_at',
     ];
 }

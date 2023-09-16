@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relation\BelongsTo;
 
-class UserSubs extends Model
+class UserSub extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'user_id',
@@ -25,7 +24,7 @@ class UserSubs extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function subsPlan(): BelongsTo
+    public function subsPlan()
     {
         return $this->belongsTo(SubsPlan::class);
     }

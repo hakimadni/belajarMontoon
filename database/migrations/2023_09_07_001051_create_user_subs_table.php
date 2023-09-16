@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('user_subs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('subs_plan_id')->constrained('subs_plans')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('subs_plan_id')->constrained()->onDelete('cascade');
             $table->unsignedInteger('price');
             $table->dateTime('expired_date')->nullable();
             $table->string('payment_status', 10)->default('pending');
