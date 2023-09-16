@@ -32,9 +32,11 @@ Route::redirect('/', '/login');
 
 Route::middleware(['auth', 'role:user'])->prefix('dashboard')->name('user.dashboard.')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('index');
-    Route::get('subsplan', [SubsPlanController::class, 'index'])->name('subsplan');
-    Route::post('subsplan/{subsPlan}/userSub', [SubsPlanController::class, 'userSub'])->name('subsplan.userSub');
-    Route::get('movie/{movie:slug}', [MovieController::class, 'show'])->name('movie.show');
+
+    Route::get('subsplan', [SubsPlanController::class, 'index'])->name('subsplan')->middleware('checkUserSubs:false');
+    Route::post('subsplan/{subsPlan}/userSub', [SubsPlanController::class, 'userSub'])->name('subsplan.userSub')->middleware('checkUserSubs:false');
+
+    Route::get('movie/{movie:slug}', [MovieController::class, 'show'])->name('movie.show')->middleware('checkUserSubs:true');
 });
 
 Route::prefix('prototype')->name('prototype.')->group(function(){
