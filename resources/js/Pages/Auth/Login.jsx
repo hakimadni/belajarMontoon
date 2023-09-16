@@ -1,97 +1,111 @@
-import { useEffect } from 'react';
-import Checkbox from '@/Components/Checkbox';
-import GuestLayout from '@/Layouts/GuestLayout';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import { Head, Link, useForm } from '@inertiajs/react';
+import Input from "@/Components/TextInput";
+import Button from "@/Components/PrimaryButton";
+import { Link, Head, useForm } from "@inertiajs/react";
+import Label from "@/Components/InputLabel";
+import { useEffect } from "react";
+import InputError from "@/Components/InputError";
+import ValidationErrors from "@/Components/ValidationErrors";
 
-export default function Login({ status, canResetPassword }) {
+export default function Login() {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: '',
-        password: '',
-        remember: '',
+        email: "",
+        password: "",
+        remember: "",
     });
 
     useEffect(() => {
         return () => {
-            reset('password');
+            reset("password");
         };
     }, []);
 
     const handleOnChange = (event) => {
-        setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
+        setData(event.target.name, event.target.value);
     };
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('login'));
+        post(route("login"));
     };
-
     return (
-        <GuestLayout>
-            <Head title="Log in" />
+        <>
+            <Head title="Sign In" />
 
-            {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
-
-            <form onSubmit={submit}>
-                <div>
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        isFocused={true}
-                        onChange={handleOnChange}
+            <div className="mx-auto max-w-screen min-h-screen bg-black text-white md:px-10 px-3">
+                <div className="fixed top-[-50px] hidden lg:block">
+                    <img
+                        src="/images/signup-image.png"
+                        className="hidden laptopLg:block laptopLg:max-w-[450px] laptopXl:max-w-[640px]"
+                        alt=""
                     />
-
-                    <InputError message={errors.email} className="mt-2" />
                 </div>
-
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
-                        name="password"
-                        value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
-                        onChange={handleOnChange}
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
+                <div className="py-24 flex laptopLg:ml-[680px] laptopXl:ml-[870px]">
+                    <div>
+                        <img src="/images/moonton-white.svg" alt="" />
+                        <div className="my-[70px]">
+                            <div className="font-semibold text-[26px] mb-3">
+                                Welcome Back
+                            </div>
+                            <p className="text-base text-[#767676] leading-7">
+                                Explore our new movies and get <br />
+                                the better insight for your life
+                            </p>
+                            <ValidationErrors errors={errors} />
+                        </div>
+                        <form className="w-[370px]" onSubmit={submit}>
+                            <div className="flex flex-col gap-6">
+                                <div>
+                                    <Label
+                                        forInput="email"
+                                        value="Email Address"
+                                    />
+                                    <Input
+                                        name="email"
+                                        value={data.email}
+                                        placeholder="Your email address..."
+                                        isFocused={true}
+                                        handleChange={handleOnChange}
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <Label
+                                        forInput="password"
+                                        value="password"
+                                    />
+                                    <Input
+                                        type="password"
+                                        name="password"
+                                        value={data.password}
+                                        placeholder="Your password..."
+                                        isFocused={true}
+                                        handleChange={handleOnChange}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className="grid space-y-[14px] mt-[30px]">
+                                    <Button type="submit" variant="primary" processing={processing}>
+                                        <span className="text-base font-semibold">
+                                            Start Watching
+                                        </span>
+                                    </Button>
+                                <Link href={route("register")}>
+                                    <Button
+                                        type="button"
+                                        variant="light-outline"
+                                    >
+                                        <span className="text-base text-white">
+                                            Create New Account
+                                        </span>
+                                    </Button>
+                                </Link>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-
-                <div className="block mt-4">
-                    <label className="flex items-center">
-                        <Checkbox name="remember" value={data.remember} onChange={handleOnChange} />
-                        <span className="ml-2 text-sm text-gray-600">Remember me</span>
-                    </label>
-                </div>
-
-                <div className="flex items-center justify-end mt-4">
-                    {canResetPassword && (
-                        <Link
-                            href={route('password.request')}
-                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                            Forgot your password?
-                        </Link>
-                    )}
-
-                    <PrimaryButton className="ml-4" disabled={processing}>
-                        Log in
-                    </PrimaryButton>
-                </div>
-            </form>
-        </GuestLayout>
+            </div>
+        </>
     );
 }
