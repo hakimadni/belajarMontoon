@@ -38,7 +38,7 @@ class AuthenticatedSessionController extends Controller
             return redirect(route('admin.movie.index'));
         }
 
-        return redirect()->intended('user.dashboard.index');
+        return redirect()->route('user.dashboard.index');
     }
 
     /**
