@@ -11,13 +11,7 @@ class DashboardController extends Controller
     function index(){
         $featured = Movie::where('featured', 1)->get();
         $all = Movie::all();
-        
-        // return [
-        //     'featured' => $featured,
-        //     'all' => $all
-        // ];
-
-        return inertia('User/Dashboard/Index', [
+        return Inertia('User/Dashboard/Index', [
             'featured' => $featured,
             'all' => $all
         ]);
