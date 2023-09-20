@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\MovieController;
 use App\Http\Controllers\User\SubsPlanController;
+use App\Http\Controllers\Admin\MovieController as AdminMovieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,22 +40,9 @@ Route::middleware(['auth', 'role:user'])->prefix('dashboard')->name('user.dashbo
     Route::get('movie/{movie:slug}', [MovieController::class, 'show'])->name('movie.show')->middleware('checkUserSubs:true');
 });
 
-Route::prefix('prototype')->name('prototype.')->group(function(){
-    route::get('/login', function (){
-        return Inertia::render('Prototype/Login');
-    })->name('login');
-    route::get('/register', function (){
-        return Inertia::render('Prototype/Register');
-    })->name('register');
-    route::get('/dashboard', function (){
-        return Inertia::render('User/Dashboard/Index');
-    })->name('dashboard');
-    route::get('/subsPlan', function (){
-        return Inertia::render('Prototype/SubsPlan');
-    })->name('subsPlan');
-    route::get('/movie/{slug}', function (){
-        return Inertia::render('Prototype/Movie/Show');
-    })->name('movie.show');
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::put('movie/{movie}/restore', [AdminMovieController::class, 'restore'])->name('movie.restore');
+    Route::resource('movie', AdminMovieController::class);
 });
 
 Route::middleware('auth')->group(function () {
