@@ -62,6 +62,6 @@ class User extends Authenticatable
      */
     public function LastActiveUserSub(): HasOne
     {
-        return $this->hasOne(UserSub::class)->wherePaymentStatus('success')->latest();
+        return $this->hasOne(UserSub::class)->wherePaymentStatus('paid')->latest();
     }
 }

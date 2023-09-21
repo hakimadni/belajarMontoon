@@ -1,33 +1,50 @@
 import Authenticated from "@/Layouts/Authenticated/Index";
 import SubsCard from "@/Components/SubsCard";
-import { Head } from "@inertiajs/react";
-import { Inertia } from "@inertiajs/inertia";
+import { Head, router } from "@inertiajs/react"
 
-export default function SubsPlan({ auth, subsPlans }) {
-    const flickityOptions = {
-        cellAlign: "left",
-        contain: true,
-        groupCells: 1,
-        wrapAround: false,
-        pageDots: false,
-        prevNextButtons: false,
-        draggable: ">1",
-    };
-
+export default function SubsPlan({ auth, subsPlans, env }) {
     const selectSubs = (id) => {
-        Inertia.post(
+        //Inertia.post
+        router.post(
             route("user.dashboard.subsplan.userSub", {
                 subsPlan: id,
-            })
+            }),
+            {},
+            {
+                only:['userSub'],
+                onSuccess: (page) => {
+                    onSnapMidtrans(page.props.userSub);
+                },
+            }
         );
     };
+
+    const onSnapMidtrans = (userSub) => {
+        // console.log(userSub);
+        // SnapToken acquired from previous step
+        snap.pay(userSub.snapToken, {
+            // Optional
+            onSuccess: function (result) {
+                Inertia.visit(route("user.dashboard.index"));
+            },
+            // Optional
+            onPending: function (result) {
+                console.log(result);
+            },
+            // Optional
+            onError: function (result) {
+                console.log(result);
+            },
+        });
+    };
+
     return (
         <Authenticated auth={auth}>
             <Head title="Subscription Plan">
-                <link
-                    rel="stylesheet"
-                    href="https://unpkg.com/flickity@2/dist/flickity.min.css"
-                />
+                <script
+                    src="https://app.sandbox.midtrans.com/snap/snap.js"
+                    data-client-key={env.MIDTRANS_CLIENT_KEY}
+                ></script>
             </Head>
 
             {/* <!-- START: Content --> */}
