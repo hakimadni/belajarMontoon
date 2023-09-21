@@ -5,6 +5,8 @@ import MovieCard from "@/Components/MovieCard";
 import { Head } from "@inertiajs/react";
 
 export default function Dashboard({auth, all, featured}){
+    console.log(auth);
+
     const flickityOptions = {"cellAlign": "left",
     "contain": true,
     "groupCells": 1,
@@ -25,12 +27,12 @@ export default function Dashboard({auth, all, featured}){
                     <div className="font-semibold text-[22px] text-black mb-4">Featured Movies</div>
                     <Flickity className="gap-[30px]" options={flickityOptions}>
                         {featured?.map((featured) => (
-                            <FeaturedMovie 
-                            key={featured.id} 
+                            <FeaturedMovie
+                            key={featured.id}
                             slug={featured.slug}
-                            title={featured.name} 
+                            title={featured.name}
                             category={featured.category}
-                            rating={featured.rating} 
+                            rating={featured.rating}
                             poster={featured.poster}>
                             </FeaturedMovie>
                         ))}
@@ -44,16 +46,16 @@ export default function Dashboard({auth, all, featured}){
                     <Flickity className="gap-[30px]" options={flickityOptions}>
                         {/* <!-- Movies 1 --> */}
                         {all.map((all) => (
-                            <MovieCard 
-                            key={all.id} 
+                            <MovieCard
+                            key={all.id}
                             slug={all.slug}
-                            title={all.name} 
+                            title={all.name}
                             category={all.category}
-                            rating={all.rating} 
+                            rating={all.rating}
                             poster={all.poster}>
                             </MovieCard>
                         ))}
-                        
+
                     </Flickity>
                 </div>
                 {/* <!-- /Continue Watching --> */}
